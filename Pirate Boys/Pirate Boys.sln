@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{84249D81-7E8B-4D17-84FE-F52D1CA73B4A}") = "Pirate Boys", "Assembly-CSharp.csproj", "{0409176A-8B74-44A0-0413-45BEE9716AC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0409176A-8B74-44A0-0413-45BEE9716AC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0409176A-8B74-44A0-0413-45BEE9716AC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0409176A-8B74-44A0-0413-45BEE9716AC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0409176A-8B74-44A0-0413-45BEE9716AC5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
