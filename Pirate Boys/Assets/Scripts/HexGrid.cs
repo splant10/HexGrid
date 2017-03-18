@@ -2,10 +2,11 @@
 
 public class HexGrid : MonoBehaviour 
 {
-	public Transform hexPrefab;
+	public Transform hexPrefabWater;
+	public Transform hexPrefabLand;
 
-	public int gridWidth = 11;
-	public int gridHeight = 11;
+	public int gridWidth = 15;
+	public int gridHeight = 15;
 
 	float hexWidth = 1.732f;
 	float hexHeight = 2.0f;
@@ -52,11 +53,16 @@ public class HexGrid : MonoBehaviour
 
 	void CreateGrid()
 	{
+		Transform hex;
 		for (int y = 0; y < gridHeight; y++)
 		{
 			for (int x = 0; x < gridWidth; x++)
 			{
-				Transform hex = Instantiate(hexPrefab) as Transform;
+				if (Random.Range (0, 2) == 0) {
+					hex = Instantiate (hexPrefabLand) as Transform;
+				} else {
+					hex = Instantiate (hexPrefabWater) as Transform;
+				}
 				Vector2 gridPos = new Vector2(x, y);
 				hex.position = CalcWorldPos(gridPos);
 				hex.parent = this.transform;
