@@ -12,6 +12,11 @@ public class Hexagon {
 		this.y = (int) coordinate.y;
 	}
 
+	public Hexagon(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	public Hexagon getNext(int direction) {
 		
 		int offsetX;

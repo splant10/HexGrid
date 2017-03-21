@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class HexGrid : MonoBehaviour 
 {
-	public Transform hexPrefabWater;
-	public Transform hexPrefabLand;
+	public Transform hexPrefab;
+	public int ringDepth = 1;
 
 	public int gridWidth = 15;
 	public int gridHeight = 15;
@@ -13,6 +14,7 @@ public class HexGrid : MonoBehaviour
 	public float gap = 0.0f;
 
 	Vector3 startPos;
+	private List<Transform> hexes;
 
 	void Start()
 	{
@@ -58,15 +60,16 @@ public class HexGrid : MonoBehaviour
 		{
 			for (int x = 0; x < gridWidth; x++)
 			{
-				if (Random.Range (0, 2) == 0) {
-					hex = Instantiate (hexPrefabLand) as Transform;
-				} else {
-					hex = Instantiate (hexPrefabWater) as Transform;
-				}
+				Hexagon h = new Hexagon (x, y);
+				hex = Instantiate (hexPrefab) as Transform;
+				hex.GetComponent<HexagonManager> ().setHexagon (h);
+				hexes.Add (hex);
+
 				Vector2 gridPos = new Vector2(x, y);
 				hex.position = CalcWorldPos(gridPos);
 				hex.parent = this.transform;
 				hex.name = "Hexagon" + x + "|" + y;
+
 			}
 		}
 	}
