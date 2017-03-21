@@ -8,8 +8,8 @@ public class Hexagon {
 	private int y;
 
 	public Hexagon(Vector2 coordinate) {
-		this.x = coordinate.x;
-		this.y = coordinate.y;
+		this.x = (int) coordinate.x;
+		this.y = (int) coordinate.y;
 	}
 
 	public Hexagon getNext(int direction) {
@@ -20,22 +20,18 @@ public class Hexagon {
 		switch (direction) {
 		case 1: // NW
 			return new Hexagon(new Vector2(offsetX, this.y+1));
-			break;
 		case 2: // NE
 			return new Hexagon(new Vector2(offsetX-1, this.y+1));
-			break;
 		case 3: // E
 			return new Hexagon(new Vector2(this.x-1, this.y));
-			break;
 		case 4: // SE
 			return new Hexagon(new Vector2(offsetX-1, this.y-1));
-			break;
 		case 5: // SW
 			return new Hexagon(new Vector2(offsetX, this.y-1));
-			break;
 		case 6: // W
 			return new Hexagon(new Vector2(this.x+1, this.y));
-			break;
+		default:
+			return null;
 		}
 	}
 }
