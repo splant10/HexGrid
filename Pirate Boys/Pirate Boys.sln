@@ -1,7 +1,7 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pirate Boys", "Assembly-CSharp.csproj", "{0409176A-8B74-44A0-0413-45BEE9716AC5}"
+# Visual Studio 2008
+
+Project("{84249D81-7E8B-4D17-84FE-F52D1CA73B4A}") = "Pirate Boys", "Assembly-CSharp.csproj", "{0409176A-8B74-44A0-0413-45BEE9716AC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
