@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Hexagon : MonoBehaviour {
 
@@ -43,5 +44,11 @@ public class Hexagon : MonoBehaviour {
 
 	public Vector2 getCoords() {
 		return new Vector2 (x, y);
+	}
+
+	void OnMouseOver(){
+		if(Input.GetMouseButtonDown(0)) {
+			Debug.Log (new Vector2 (x, y));
+		}
 	}
 }
