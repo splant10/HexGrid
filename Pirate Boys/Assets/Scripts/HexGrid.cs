@@ -4,6 +4,9 @@ using System;
 
 public class HexGrid : MonoBehaviour 
 {
+	public int gridWidth = 15;
+	public int gridHeight = 15;
+
 	public Transform hexPrefab;
 	public Material landMaterial;
 	public Material tier3Material;
@@ -12,8 +15,7 @@ public class HexGrid : MonoBehaviour
 	public int tier3Depth = 2;
 	public int tier2Depth = 3;
 
-	public int gridWidth = 15;
-	public int gridHeight = 15;
+	public bool trim = true;
 
 	float hexWidth = 1.732f;
 	float hexHeight = 2.0f;
@@ -23,6 +25,9 @@ public class HexGrid : MonoBehaviour
 
 	Transform[][] hexes;
 	GameObject centerHex;
+
+	Vector2[] tier2tiles;
+	Vector2[] tier3tiles;
 
 	void Start()
 	{
@@ -83,6 +88,17 @@ public class HexGrid : MonoBehaviour
 			}
 			hexes [y] = row;
 		}
+		if (trim) {
+			if (gridWidth >= gridHeight) {
+				for (int i = 0; i < gridHeight; i += 2) {
+					Destroy (hexes [i] [0].gameObject);
+				}
+			} else {
+				for (int i = 0; i < gridWidth; i += 2) {
+					Destroy (hexes [i] [0].gameObject);
+				}
+			}
+		}
 		populateIsland ();
 		populateTier3 ();
 		populateTier2 ();
@@ -91,7 +107,7 @@ public class HexGrid : MonoBehaviour
 	GameObject getCenterHex() {
 		int centerX = (int) Mathf.Floor (gridWidth / 2);
 		int centerY = (int) Mathf.Floor (gridHeight / 2);
-		return hexes [centerX] [centerY].gameObject;
+		return hexes [centerY] [centerX].gameObject;
 	}
 
 	void populateIsland() {
@@ -110,8 +126,7 @@ public class HexGrid : MonoBehaviour
 		int n = islandDepth + 1;
 		int top = n + tier3Depth;
 		while (n < top) {
-			Debug.Log (n);
-			populateRing (tier3Material, n);
+			tier3tiles = populateRing (tier3Material, n);
 			n += 1;
 		}
 
@@ -121,12 +136,12 @@ public class HexGrid : MonoBehaviour
 		int n = islandDepth + tier3Depth + 1;
 		int top = n + tier2Depth;
 		while (n < top) {
-			populateRing (tier2Material, n);
+			tier2tiles = populateRing (tier2Material, n);
 			n += 1;
 		}
 	}
 
-	void populateRing(Material mat, int ringNum) {
+	Vector2[] populateRing(Material mat, int ringNum) {
 
 		Vector2[] hexagonCoords = new Vector2 [ringNum * 6];
 
@@ -162,8 +177,8 @@ public class HexGrid : MonoBehaviour
 			} catch (Exception e) {
 				// can't access that hex.
 			}
-			Debug.Log (coord);
 		}
+		return hexagonCoords;
 
 	}
 
