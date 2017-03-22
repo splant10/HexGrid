@@ -48,7 +48,7 @@ public class Hexagon : MonoBehaviour {
 
 	void OnMouseOver(){
 		if(Input.GetMouseButtonDown(0)) {
-			Debug.Log (new Vector2 (x, y));
+			GameObject.Find ("GameManager").GetComponent<GameManager> ().OnClickHex (new Vector2 (x, y));
 		}
 	}
 }

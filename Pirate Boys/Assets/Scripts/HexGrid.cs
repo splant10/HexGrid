@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
+//[ExecuteInEditMode]
 public class HexGrid : MonoBehaviour 
 {
 	public int gridWidth = 15;
@@ -32,6 +34,8 @@ public class HexGrid : MonoBehaviour
 	void Start()
 	{
 		hexes = new Transform[gridHeight][];
+		tier2tiles = new Vector2[0];
+		tier3tiles = new Vector2[0];
 		AddGap();
 		CalcStartPos();
 		CreateGrid();
@@ -102,6 +106,9 @@ public class HexGrid : MonoBehaviour
 		populateIsland ();
 		populateTier3 ();
 		populateTier2 ();
+		populateTier1 ();
+
+		GameObject.Find ("GameManager").GetComponent<GameManager> ().Create ();
 	}
 
 	GameObject getCenterHex() {
@@ -126,7 +133,12 @@ public class HexGrid : MonoBehaviour
 		int n = islandDepth + 1;
 		int top = n + tier3Depth;
 		while (n < top) {
-			tier3tiles = populateRing (tier3Material, n);
+			Vector2[] newRing = populateRing (tier3Material, n);
+			Vector2[] newTier3 = new Vector2[tier3tiles.Length + newRing.Length];
+
+			tier3tiles.CopyTo(newTier3, 0);
+			newRing.CopyTo(newTier3, tier3tiles.Length);
+			tier3tiles = newTier3;
 			n += 1;
 		}
 
@@ -136,9 +148,18 @@ public class HexGrid : MonoBehaviour
 		int n = islandDepth + tier3Depth + 1;
 		int top = n + tier2Depth;
 		while (n < top) {
-			tier2tiles = populateRing (tier2Material, n);
+			Vector2[] newRing = populateRing (tier2Material, n);
+			Vector2[] newTier2 = new Vector2[tier2tiles.Length + newRing.Length];
+
+			tier2tiles.CopyTo(newTier2, 0);
+			newRing.CopyTo(newTier2, tier2tiles.Length);
+			tier2tiles = newTier2;
 			n += 1;
 		}
+	}
+
+	void populateTier1 () {
+
 	}
 
 	Vector2[] populateRing(Material mat, int ringNum) {
@@ -180,6 +201,34 @@ public class HexGrid : MonoBehaviour
 		}
 		return hexagonCoords;
 
+	}
+
+	public Vector2[] GetTierTiles(int tier) {
+		switch (tier) {
+		case 1:
+			List<Vector2> allTiles = new List<Vector2> ();
+			for (int x = 0; x < gridWidth; ++x) {
+				for (int y = 0; y < gridHeight; ++y) {
+					allTiles.Add (new Vector2 (x, y));
+				}
+			}
+			foreach (Vector2 tile in allTiles) {
+				if (tier2tiles.Contains (tile) || tier3tiles.Contains(tile)) {
+					allTiles.Remove (tile);
+				}
+			}
+			return allTiles.ToArray();
+		case 2:
+			return this.tier2tiles;
+		case 3:
+			return this.tier3tiles;
+		default:
+			return new Vector2[0];
+		}
+	}
+
+	public Transform[][] getHexes() {
+		return hexes;
 	}
 
 }
