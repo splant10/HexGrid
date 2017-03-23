@@ -28,12 +28,15 @@ public class HexGrid : MonoBehaviour
 	Transform[][] hexes;
 	GameObject centerHex;
 
+	List<Vector2> allTiles;
+	Vector2[] tier1tiles;
 	Vector2[] tier2tiles;
 	Vector2[] tier3tiles;
 
 	void Start()
 	{
 		hexes = new Transform[gridHeight][];
+		allTiles = new List<Vector2>();
 		tier2tiles = new Vector2[0];
 		tier3tiles = new Vector2[0];
 		AddGap();
@@ -84,6 +87,7 @@ public class HexGrid : MonoBehaviour
 				hex.GetComponent<Hexagon> ().setHexagon (h);
 
 				Vector2 gridPos = new Vector2(x, y);
+				allTiles.Add (gridPos);
 				hex.position = CalcWorldPos(gridPos);
 				hex.parent = this.transform;
 				hex.name = "Hexagon" + x + "|" + y;
@@ -159,7 +163,13 @@ public class HexGrid : MonoBehaviour
 	}
 
 	void populateTier1 () {
-
+		foreach (Vector2 coord in tier2tiles) {
+			allTiles.Remove (coord);
+		}
+		foreach (Vector2 coord in tier3tiles) {
+			allTiles.Remove (coord);
+		}
+		tier1tiles = allTiles.ToArray ();
 	}
 
 	Vector2[] populateRing(Material mat, int ringNum) {
@@ -206,18 +216,7 @@ public class HexGrid : MonoBehaviour
 	public Vector2[] GetTierTiles(int tier) {
 		switch (tier) {
 		case 1:
-			List<Vector2> allTiles = new List<Vector2> ();
-			for (int x = 0; x < gridWidth; ++x) {
-				for (int y = 0; y < gridHeight; ++y) {
-					allTiles.Add (new Vector2 (x, y));
-				}
-			}
-			foreach (Vector2 tile in allTiles) {
-				if (tier2tiles.Contains (tile) || tier3tiles.Contains(tile)) {
-					allTiles.Remove (tile);
-				}
-			}
-			return allTiles.ToArray();
+			return this.tier1tiles;
 		case 2:
 			return this.tier2tiles;
 		case 3:
